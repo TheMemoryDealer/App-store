@@ -8,7 +8,7 @@ import { Card, CardSection, Input } from './src/common';
 
 
 export default class App extends Component {
-  state = { loggedIn: null };
+  state = { loggedIn: false };
 
   componentWillMount() {
     firebase.initializeApp({
@@ -21,13 +21,6 @@ export default class App extends Component {
       appId: "1:603005366443:web:ab4dbd960700b17c"
     })
 
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
-    });
   }
 
   renderContent() {

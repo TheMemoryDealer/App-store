@@ -33,6 +33,13 @@ export default class LoginForm extends Component {
     }
 
     onLoginSuccess() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ loggedIn: true });
+            } else {
+                this.setState({ loggedIn: false });
+            }
+        });
         this.setState({
             email: '',
             password: '',
@@ -42,7 +49,10 @@ export default class LoginForm extends Component {
     }
 
     onSignUpSuccess() {
-        this.setState({ error: 'sdfhdsfhsdfhsdfh', loading: false });
+        this.setState({
+            error: 'A new user has been created', email: '',
+            password: '', loading: false
+        });
     }
 
     renderButton() {
@@ -63,6 +73,7 @@ export default class LoginForm extends Component {
     }
 
     render() {
+
         return (
             <Card>
                 <CardSection>
@@ -89,6 +100,8 @@ export default class LoginForm extends Component {
                 </Text>
 
                 {this.renderButton()}
+
+
             </Card>
         );
     }
