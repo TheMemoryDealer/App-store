@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Button, Text } from 'native-base';
 import firebase from 'firebase';
-import { Button, Card, CardSection, Input, Spinner } from './common';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Spinner } from './common/Spinner'
+
+
 
 export default class LoginForm extends Component {
-    state = { email: '', password: '', error: '', loading: false };
+    state = { email: '', password: '', error: '', loading: false, didHeSignUp: false };
 
     Login() {
         const { email, password } = this.state;
@@ -29,17 +33,11 @@ export default class LoginForm extends Component {
     }
 
     onSignUpFail() {
-        this.setState({ error: 'A user with such email already exists', loading: false });
+        this.setState({ error: 'A user with such email already exists', loading: false, didHeSignUp: '', });
     }
 
     onLoginSuccess() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({ loggedIn: true });
-            } else {
-                this.setState({ loggedIn: false });
-            }
-        });
+
         this.setState({
             email: '',
             password: '',
@@ -50,8 +48,7 @@ export default class LoginForm extends Component {
 
     onSignUpSuccess() {
         this.setState({
-            error: 'A new user has been created', email: '',
-            password: '', loading: false
+            error: '', email: '', password: '', loading: false, didHeSignUp: 'A new user has been created'
         });
     }
 
@@ -61,56 +58,65 @@ export default class LoginForm extends Component {
         }
 
         return (
-            <CardSection>
-                <Button onPress={this.Login.bind(this)}>
-                    Log in
-      </Button>
-                <Button onPress={this.SignUp.bind(this)}>
-                    Sign Up
-</Button>
-            </CardSection>
+            <View style={{ marginVertical: 100, }}>
+                <Button light style={{ marginVertical: 20, borderRadius: 40, justifyContent: 'center', }} onPress={this.Login.bind(this)}>
+                    <Text style={{ color: '#021B79' }} > Log in </Text>
+                </Button>
+                <Text style={{ marginVertical: 20, color: 'white', left: 40 }}> Dont have an account? </Text>
+                <Button transparent style={{ marginVertical: 20, borderRadius: 40, justifyContent: 'center', position: 'absolute', top: 70, alignSelf: 'flex-end', }} onPress={this.SignUp.bind(this)}>
+                    <Text style={{ color: '#00dfff', fontSize: 20 }}  > Sign Up </Text></Button>
+            </View>
         );
     }
 
     render() {
 
         return (
-            <Card>
-                <CardSection>
-                    <Input
-                        placeholder="user@gmail.com"
-                        label="Email"
-                        value={this.state.email}
-                        onChangeText={email => this.setState({ email })}
+            <View style={{ backgroundColor: '#021B79' }}>
+                <LinearGradient
+                    colors={['#0575E6', 'transparent']}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: 300,
+                    }}
+                />
+
+                <View style={styles.LoginBlock}>
+                    <Image
+                        source={require('../assets/logo.png')} style={{ width: 340, height: 110, marginVertical: 30, }}
                     />
-                </CardSection>
+                    <Item>
+                        <Input style={{ backgroundColor: 'transparent', marginVertical: 10, }} placeholder="Username" placeholderTextColor='white' color='white' value={this.state.email}
+                            onChangeText={email => this.setState({ email })} />
+                    </Item>
+                    <Item last>
+                        <Input style={{ backgroundColor: 'transparent' }} placeholder="Password" placeholderTextColor='white' color='white' value={this.state.password}
+                            onChangeText={password => this.setState({ password })} />
+                    </Item>
 
-                <CardSection>
-                    <Input
-                        secureTextEntry
-                        placeholder="password"
-                        label="Password"
-                        value={this.state.password}
-                        onChangeText={password => this.setState({ password })}
-                    />
-                </CardSection>
+                    {this.renderButton()}
 
-                <Text style={styles.errorTextStyle}>
-                    {this.state.error}
-                </Text>
-
-                {this.renderButton()}
-
-
-            </Card>
+                </View>
+            </View>
         );
     }
 }
 
 const styles = {
-    errorTextStyle: {
+    LoginBlock: {
+        alignContent: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 40,
+        marginVertical: 100,
+        borderRadius: 0,
+
+    },
+    signUpTextStyle: {
         fontSize: 20,
         alignSelf: 'center',
-        color: 'red'
+        color: 'green'
     }
 };
