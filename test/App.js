@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Header, Button, Spinner } from './src/common'
+import { Header, Button, Spinner } from './common'
 import firebase from 'firebase'
-import { Card, CardSection, Input } from './src/common';
+import { Card, CardSection, Input } from './common';
 import { createAppContainer, createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
-import LoginForm from './src/LoginForm'
-import SignUpForm from './src/SignUpForm'
+import HomeScreen from './HomeScreen'
+import DetailsScreen from './DetailScreen'
 
 const RootStack = createStackNavigator(
   {
     Home: {
-      screen: LoginForm,
+      screen: HomeScreen,
     },
     Details: {
-      screen: SignUpForm,
+      screen: DetailsScreen,
     },
   },
   {

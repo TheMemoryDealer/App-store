@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Spinner } from './common/Spinner'
 import { createAppContainer, createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
-export default class LoginForm extends React.Component {
+export default class HomeScreen extends React.Component {
     static navigationOptions = {
         header: null
     }
@@ -31,7 +31,7 @@ export default class LoginForm extends React.Component {
     }
 
     onLoginFail() {
-        this.setState({ error: 'The username or password was incorrect', loading: false });
+        this.setState({ error: 'Authentication Failed', loading: false });
     }
 
     onSignUpFail() {
@@ -88,7 +88,7 @@ export default class LoginForm extends React.Component {
 
                 <View style={styles.LoginBlock}>
                     <Image
-                        source={require('../assets/logo.png')} style={{ width: 340, height: 110, marginVertical: 30, right: 10, }}
+                        source={require('./assets/logo.png')} style={{ width: 340, height: 110, marginVertical: 30, right: 10, }}
                     />
                     <Item>
                         <Input style={{ backgroundColor: 'transparent', marginVertical: 10, }} placeholder="Username" placeholderTextColor='white' color='white' value={this.state.email}
@@ -98,11 +98,8 @@ export default class LoginForm extends React.Component {
                         <Input style={{ backgroundColor: 'transparent' }} placeholder="Password" secureTextEntry={true} placeholderTextColor='white' color='white' value={this.state.password}
                             onChangeText={password => this.setState({ password })} />
                     </Item>
-                    <Text style={styles.errorTextStyle}>
-                        {this.state.error}
-                    </Text>
-                    {this.renderButton()}
 
+                    {this.renderButton()}
 
                 </View>
             </View>
@@ -119,10 +116,9 @@ const styles = {
         borderRadius: 0,
 
     },
-    errorTextStyle: {
-        fontSize: 15,
+    signUpTextStyle: {
+        fontSize: 20,
         alignSelf: 'center',
-        color: 'red',
-        marginVertical: 30,
+        color: 'green'
     }
 };

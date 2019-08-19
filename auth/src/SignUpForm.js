@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Alert } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Button, Text } from 'native-base';
 import firebase from 'firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Spinner } from './common/Spinner'
-import { createAppContainer, createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
-export default class LoginForm extends React.Component {
+export default class SignUpForm extends React.Component {
     static navigationOptions = {
         header: null
     }
@@ -31,7 +30,7 @@ export default class LoginForm extends React.Component {
     }
 
     onLoginFail() {
-        this.setState({ error: 'The username or password was incorrect', loading: false });
+        this.setState({ error: 'Authentication Failed', loading: false });
     }
 
     onSignUpFail() {
@@ -50,6 +49,13 @@ export default class LoginForm extends React.Component {
     }
 
     onSignUpSuccess() {
+        Alert.alert(
+            'A new user with Username:' + this.state.email + ' has been created',
+            '',
+            [
+                { text: 'OK' },
+            ]
+        );
         this.setState({
             error: '', email: '', password: '', loading: false, didHeSignUp: 'A new user has been created'
         });
@@ -62,12 +68,11 @@ export default class LoginForm extends React.Component {
 
         return (
             <View style={{ marginVertical: 100, }}>
-                <Button light style={{ marginVertical: 20, borderRadius: 40, justifyContent: 'center', }} onPress={this.Login.bind(this)}>
-                    <Text style={{ color: '#021B79' }} > Log in </Text>
+                <Button light style={{ marginVertical: 20, borderRadius: 40, justifyContent: 'center', }} onPress={this.SignUp.bind(this)}>
+                    <Text style={{ color: '#021B79' }} > Sign Up </Text>
                 </Button>
-                <Text style={{ marginVertical: 20, color: 'white', left: 30 }}> Dont have an account? </Text>
-                <Button onPress={() => this.props.navigation.navigate('Details')} transparent style={{ marginVertical: 20, borderRadius: 40, justifyContent: 'center', position: 'absolute', top: 70, alignSelf: 'flex-end', }} >
-                    <Text style={{ color: '#00dfff', fontSize: 20 }}  > Sign Up </Text></Button>
+                <Button onPress={() => this.props.navigation.navigate('Home')} transparent style={{ marginVertical: 20, borderRadius: 40, justifyContent: 'center', position: 'absolute', top: 70, left: 30, alignSelf: 'flex-end', }} >
+                    <Text style={{ color: '#00dfff', fontSize: 15, }}  > Log in with an existing account </Text></Button>
             </View>
         );
     }
@@ -103,7 +108,6 @@ export default class LoginForm extends React.Component {
                     </Text>
                     {this.renderButton()}
 
-
                 </View>
             </View>
         );
@@ -115,7 +119,7 @@ const styles = {
         alignContent: 'center',
         justifyContent: 'center',
         marginHorizontal: 40,
-        marginVertical: 100,
+        marginVertical: 120,
         borderRadius: 0,
 
     },
@@ -125,4 +129,4 @@ const styles = {
         color: 'red',
         marginVertical: 30,
     }
-};
+}
